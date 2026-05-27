@@ -1,31 +1,28 @@
 # ⚡ CodeFusion — Real-Time Collaborative Code Editor
 
-> **Code together. Ship faster. Zero friction.**
+<div align="center">
 
-CodeFusion is a full-stack real-time collaborative code editor built for developers. Create a room, share the ID, and code side-by-side with live synchronization, typing indicators, and instant code execution — no account required.
+![CodeFusion Banner](https://img.shields.io/badge/CodeFusion-Real--Time%20Collaborative%20Editor-6366f1?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![Socket.io](https://img.shields.io/badge/Socket.io-4.x-010101?style=flat-square&logo=socket.io)](https://socket.io/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![Monaco Editor](https://img.shields.io/badge/Monaco-Editor-007ACC?style=flat-square&logo=visual-studio-code)](https://microsoft.github.io/monaco-editor/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
+**A production-grade, real-time collaborative coding platform built for developers.**  
+Code together, anywhere, instantly — like Google Docs but for code.
+
+[Live Demo](#) · [Report Bug](#) · [Request Feature](#)
+
+</div>
 
 ---
 
-## 🖥️ Screenshots
+## 📸 Preview
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  ⚡ CodeFusion        ROOM: A1B2C3D4  [JS▾]  [▶ Run]  [☀]  │
-├─────────────────────────────────────────────────────────────┤
-│                                              │ Collaborators │
-│  1  // Welcome to CodeFusion ⚡             │               │
-│  2  function greet(name) {                  │  [JD] john_d  │
-│  3    return `Hello, ${name}!`;             │      typing●●●│
-│  4  }                                       │               │
-│  5  console.log(greet("World"));            │  [AL] alice_l  │
-│  6                                          │      idle      │
-│                                              │               │
-├─────────────────────────────────────────────│ ROOM: A1B2C3D4│
-│  Terminal Output                            │  [Copy]       │
-│  ▶ Running javascript...                    └───────────────┘
-│  Code executed successfully.
-└─────────────────────────────────────────────────────────────┘
-```
+> Dark mode, Monaco editor, multi-user cursors, live sync — all in one clean UI.
 
 ---
 
@@ -33,282 +30,214 @@ CodeFusion is a full-stack real-time collaborative code editor built for develop
 
 | Feature | Description |
 |---|---|
-| 🔴 Real-time sync | Code changes broadcast instantly via Socket.io |
-| 🏠 Room system | Create or join rooms with unique 8-char IDs |
-| 💬 Typing indicators | See who's actively typing in real-time |
-| 🌐 8 Languages | JS, TypeScript, Python, C++, Java, Rust, Go, HTML |
-| ▶ Code runner | Execute code with live terminal output |
-| 🌙 Dark / Light mode | Persistent theme preference |
-| 📋 Copy Room ID | One-click clipboard copy |
-| 👥 Live user list | Real-time collaborator sidebar |
-| 🎨 Monaco Editor | VS Code–grade editing experience |
-| 📱 Responsive UI | Works on desktop and tablet |
+| 🔴 **Real-Time Sync** | Code changes propagate to all users in a room within milliseconds via WebSockets |
+| 🏠 **Room System** | Create or join private coding rooms using a unique Room ID |
+| 🌐 **Multi-Language** | Support for JavaScript, Python, C++, Java, Go, TypeScript, and more |
+| ⌨️ **Typing Indicators** | See who is actively typing in real time |
+| ▶️ **Run Code** | Execute code and see output directly in the browser |
+| 📋 **Copy Room ID** | One-click room ID sharing for easy onboarding |
+| 🌙 **Dark / Light Mode** | Toggle between themes; preference saved to localStorage |
+| 📱 **Responsive UI** | Fully functional across desktop, tablet, and mobile viewports |
 
 ---
 
-## 🛠️ Tech Stack
-
-### Frontend
-- **React 18** — UI framework with hooks
-- **Vite** — Lightning-fast dev server and bundler
-- **Monaco Editor** — VS Code's editor engine (`@monaco-editor/react`)
-- **Socket.io Client** — WebSocket-based real-time communication
-- **Tailwind CSS** — Utility-first styling
-- **react-hot-toast** — Beautiful notifications
-
-### Backend
-- **Node.js** — JavaScript runtime
-- **Express** — REST API server
-- **Socket.io** — Real-time bidirectional event communication
-- **UUID** — Unique room ID generation
-
----
-
-## 📁 Project Structure
+## 🏗️ Architecture & Tech Stack
 
 ```
 CodeFusion/
-├── client/                     # React frontend
+├── client/                     # React Frontend
 │   ├── public/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── CodeEditor.jsx  # Monaco editor wrapper
-│   │   │   ├── Header.jsx      # Top navigation bar
-│   │   │   ├── OutputPanel.jsx # Terminal output display
-│   │   │   └── Sidebar.jsx     # Users + room info
+│   │   │   ├── Editor/
+│   │   │   │   ├── CodeEditor.jsx        # Monaco Editor wrapper
+│   │   │   │   ├── LanguageSelector.jsx  # Language dropdown
+│   │   │   │   └── OutputPanel.jsx       # Code execution output
+│   │   │   ├── Room/
+│   │   │   │   ├── RoomLobby.jsx         # Create/Join room UI
+│   │   │   │   ├── RoomHeader.jsx        # Room ID + participants
+│   │   │   │   └── ParticipantList.jsx   # Active users sidebar
+│   │   │   └── UI/
+│   │   │       ├── ThemeToggle.jsx
+│   │   │       └── Toast.jsx
 │   │   ├── hooks/
-│   │   │   ├── useSocket.js    # Socket.io connection hook
-│   │   │   └── useTheme.js     # Dark/light mode hook
+│   │   │   ├── useSocket.js              # Socket.io connection logic
+│   │   │   ├── useEditor.js              # Editor state management
+│   │   │   └── useRoom.js                # Room join/create logic
+│   │   ├── context/
+│   │   │   ├── SocketContext.jsx         # Global socket provider
+│   │   │   └── ThemeContext.jsx          # Theme state provider
 │   │   ├── pages/
-│   │   │   └── HomePage.jsx    # Landing / room entry
-│   │   ├── App.jsx             # Root component + state
-│   │   ├── main.jsx            # Entry point
-│   │   └── index.css           # Global styles + Tailwind
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.js
+│   │   │   ├── Home.jsx                  # Landing/lobby page
+│   │   │   └── EditorPage.jsx            # Main editor workspace
+│   │   ├── utils/
+│   │   │   └── socketEvents.js           # Event name constants
+│   │   ├── App.jsx
+│   │   └── main.jsx
 │   ├── tailwind.config.js
-│   └── postcss.config.js
-│
-├── server/                     # Node.js backend
-│   ├── index.js                # Express + Socket.io server
-│   ├── rooms.js                # In-memory room state manager
 │   └── package.json
 │
-├── package.json                # Root scripts (runs both)
-├── .env.example                # Environment variable template
-├── .gitignore
-└── README.md
+└── server/                     # Node.js + Express Backend
+    ├── src/
+    │   ├── socket/
+    │   │   ├── roomHandler.js            # Room create/join/leave events
+    │   │   └── codeHandler.js            # Code sync & typing events
+    │   ├── utils/
+    │   │   └── roomManager.js            # In-memory room state
+    │   └── index.js                      # Express + Socket.io setup
+    └── package.json
 ```
+
+### Frontend
+- **React 18** — UI with hooks-based architecture
+- **Monaco Editor** — VS Code's editor engine embedded in browser
+- **Tailwind CSS** — Utility-first styling with custom dark/light themes
+- **Socket.io Client** — Real-time bidirectional communication
+- **React Router v6** — Client-side routing between lobby and editor
+
+### Backend
+- **Node.js + Express** — HTTP server and REST endpoints
+- **Socket.io** — WebSocket management, room namespacing, event broadcasting
+- **In-memory Room Store** — Lightweight Map-based room/user state
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ and npm 9+
-- Git
+- Node.js v18+
+- npm or yarn
 
 ### Installation
 
 ```bash
-# 1. Clone the repo
+# 1. Clone the repository
 git clone https://github.com/yourusername/codefusion.git
 cd codefusion
 
-# 2. Install all dependencies (client + server)
-npm run install:all
+# 2. Install server dependencies
+cd server
+npm install
 
-# 3. Set up environment variables
-cp .env.example server/.env
-cp .env.example client/.env
+# 3. Install client dependencies
+cd ../client
+npm install
 ```
 
-### Running in Development
+### Environment Variables
+
+**Server** — create `server/.env`:
+```env
+PORT=5000
+CLIENT_URL=http://localhost:5173
+```
+
+**Client** — create `client/.env`:
+```env
+VITE_SERVER_URL=http://localhost:5000
+```
+
+### Run Locally
 
 ```bash
-# Run both server and client simultaneously
+# Terminal 1 — Start server
+cd server
 npm run dev
 
-# Or run individually:
-npm run dev:server    # http://localhost:3001
-npm run dev:client    # http://localhost:5173
+# Terminal 2 — Start client
+cd client
+npm run dev
 ```
 
-### Building for Production
+Open `http://localhost:5173` in your browser.
+
+---
+
+## 🔌 Socket Events Reference
+
+| Event | Direction | Payload | Description |
+|---|---|---|---|
+| `room:create` | Client → Server | `{ username }` | Create a new room |
+| `room:join` | Client → Server | `{ roomId, username }` | Join existing room |
+| `room:leave` | Client → Server | `{ roomId }` | Leave room |
+| `code:change` | Client → Server | `{ roomId, code }` | Broadcast code delta |
+| `code:sync` | Server → Client | `{ code }` | Initial code on join |
+| `typing:start` | Client → Server | `{ roomId, username }` | User started typing |
+| `typing:stop` | Client → Server | `{ roomId, username }` | User stopped typing |
+| `user:joined` | Server → Client | `{ username, users[] }` | Notify room of new user |
+| `user:left` | Server → Client | `{ username, users[] }` | Notify room user left |
+
+---
+
+## 🌐 Deployment Guide
+
+### Deploy Backend — Railway / Render
 
 ```bash
-npm run build         # Builds the React client to client/dist/
-npm start             # Starts the production server
+# Build command
+npm install
+
+# Start command  
+node src/index.js
+
+# Environment Variables on platform:
+PORT=5000
+CLIENT_URL=https://your-frontend.vercel.app
 ```
 
----
-
-## 🔌 API Reference
-
-### REST Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/health` | Server health check |
-| `GET` | `/api/room/create` | Generate a new room ID |
-| `GET` | `/api/room/:roomId` | Get room info |
-
-### Socket.io Events
-
-#### Client → Server
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `join-room` | `{ roomId, username }` | Join or create a room |
-| `code-change` | `{ roomId, code }` | Broadcast code update |
-| `language-change` | `{ roomId, language }` | Switch language |
-| `typing-start` | `{ roomId }` | User started typing |
-| `typing-stop` | `{ roomId }` | User stopped typing |
-| `run-code` | `{ roomId, code, language }` | Execute code |
-| `cursor-move` | `{ roomId, position }` | Share cursor position |
-
-#### Server → Client
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `room-state` | `{ code, language, users }` | Initial state on join |
-| `user-joined` | `{ user, users }` | Someone joined |
-| `user-left` | `{ userId, username, users }` | Someone left |
-| `code-update` | `{ code, senderId }` | Remote code change |
-| `language-update` | `{ language, code, changedBy }` | Language switched |
-| `user-typing` | `{ userId, username, isTyping }` | Typing state |
-| `code-output` | `{ output, isError }` | Code execution result |
-
----
-
-## 🌐 Deployment
-
-### Option 1: Railway (Recommended — Free tier)
+### Deploy Frontend — Vercel
 
 ```bash
-# 1. Install Railway CLI
-npm install -g @railway/cli
+# Build command
+npm run build
 
-# 2. Login and init
-railway login
-railway init
+# Output directory
+dist
 
-# 3. Add environment variables in Railway dashboard:
-#    CLIENT_URL = https://your-frontend-url.vercel.app
-
-# 4. Deploy
-railway up
+# Environment Variable:
+VITE_SERVER_URL=https://your-backend.railway.app
 ```
 
-### Option 2: Render
+> ⚠️ **Important**: Update CORS origin in server `index.js` to match your deployed frontend URL.
 
-1. Connect your GitHub repo to [render.com](https://render.com)
-2. Create a **Web Service** pointing to `/server`
-   - Build: `npm install`
-   - Start: `node index.js`
-3. Add env var: `CLIENT_URL=https://your-frontend-url`
+### Docker (Optional)
 
-### Option 3: Vercel (Frontend) + Render (Backend)
-
-**Backend (Render):**
-```bash
-# Root directory: server/
-# Build command: npm install
-# Start command: node index.js
-```
-
-**Frontend (Vercel):**
-```bash
-# Root directory: client/
-# Build command: npm run build
-# Output directory: dist
-# Add env: VITE_SERVER_URL=https://your-backend.onrender.com
-```
-
-### Option 4: Self-hosted VPS (Ubuntu)
-
-```bash
-# Install Node.js
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# Clone and setup
-git clone https://github.com/yourusername/codefusion.git
-cd codefusion && npm run install:all
-
-# Install PM2
-npm install -g pm2
-
-# Start server
-cd server && pm2 start index.js --name "codefusion"
-
-# Build and serve client via nginx
-cd ../client && npm run build
-# Configure nginx to serve dist/ and proxy /api, /socket.io to port 3001
+```dockerfile
+# server/Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 5000
+CMD ["node", "src/index.js"]
 ```
 
 ---
 
-## 🔧 Configuration
+## 📄 Resume-Ready Description
 
-### Live Code Execution (Optional)
-
-For real code execution, integrate [Piston API](https://github.com/engineer-man/piston) (free, open-source):
-
-```js
-// In server/index.js, replace the run-code handler:
-socket.on("run-code", async ({ roomId, code, language }) => {
-  const response = await fetch("https://emkc.org/api/v2/piston/execute", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      language,
-      version: "*",
-      files: [{ content: code }]
-    })
-  });
-  const data = await response.json();
-  socket.emit("code-output", {
-    output: data.run.output || data.run.stderr,
-    isError: !!data.run.stderr
-  });
-});
-```
+> **CodeFusion** — Real-Time Collaborative Code Editor  
+> Built a full-stack collaborative coding platform using **React**, **Node.js**, **Socket.io**, and **Monaco Editor**. Implemented WebSocket-based real-time code synchronization across multiple clients within shared rooms, with typing indicators, multi-language support, and a code execution engine. Designed a scalable room management system using server-side Maps and Socket.io namespacing. Deployed with Vercel (frontend) and Railway (backend) with environment-based configuration.
 
 ---
 
-## 📄 Resume Description
+## 🤝 Contributing
 
-> **CodeFusion** — Full-Stack Real-Time Collaborative Code Editor
->
-> Built a production-ready collaborative coding platform using **React**, **Node.js**, **Express**, and **Socket.io**. Implemented real-time code synchronization with sub-100ms latency, typing indicators, multi-language support (8 languages), and an integrated code execution terminal. Features a Monaco Editor integration with custom VS Code–inspired theming, room-based session management with in-memory state, and a responsive dark/light UI. Deployed on Railway with WebSocket support.
->
-> **Key achievements:**
-> - Engineered bidirectional WebSocket protocol handling 50+ concurrent room sessions
-> - Integrated Monaco Editor with custom tokenization themes for 8 programming languages
-> - Built modular React architecture with custom hooks (`useSocket`, `useTheme`) for separation of concerns
-> - Implemented optimistic UI updates for zero-latency perceived code synchronization
+1. Fork the repo
+2. Create your feature branch: `git checkout -b feat/AmazingFeature`
+3. Commit your changes: `git commit -m 'feat: add AmazingFeature'`
+4. Push to the branch: `git push origin feat/AmazingFeature`
+5. Open a Pull Request
 
 ---
 
-## 🧩 Roadmap
+## 📝 License
 
-- [ ] Operational Transform / CRDT for conflict-free concurrent edits
-- [ ] Live code execution via Piston API
-- [ ] Shared cursor positions with color-coded carets
-- [ ] Voice/video chat integration (WebRTC)
-- [ ] Room history and code snapshots
-- [ ] GitHub Gist export
-- [ ] Password-protected rooms
-
----
-
-## 📜 License
-
-MIT — free to use, modify, and deploy.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
 <div align="center">
-  <strong>⚡ Built with passion for developers, by developers</strong><br/>
-  <sub>Star the repo if CodeFusion helped you ship faster!</sub>
+Built with ❤️ by <strong>Your Name</strong> · <a href="https://github.com/yourusername">GitHub</a> · <a href="https://linkedin.com/in/yourprofile">LinkedIn</a>
 </div>
