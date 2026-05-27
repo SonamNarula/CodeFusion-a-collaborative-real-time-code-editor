@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-void-950 text-slate-100 font-body antialiased;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0f;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2d2d3d;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00ff88;
+  }
+}
+
+@layer components {
+  /* Neon button */
+  .btn-neon {
+    @apply relative inline-flex items-center gap-2 px-5 py-2.5 font-mono text-sm font-semibold
+           text-void-950 bg-neon-green rounded-md
+           transition-all duration-200
+           hover:shadow-[0_0_20px_rgba(0,255,136,0.5)]
+           active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2 font-mono text-sm
+           text-slate-400 border border-void-600 rounded-md
+           transition-all duration-200
+           hover:border-neon-green hover:text-neon-green hover:bg-neon-green/5
+           active:scale-95;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center gap-2 px-4 py-2 font-mono text-sm
+           text-red-400 border border-red-800/50 rounded-md
+           transition-all duration-200
+           hover:border-red-500 hover:bg-red-500/10
+           active:scale-95;
+  }
+
+  /* Glass card */
+  .glass-card {
+    @apply bg-void-800/80 backdrop-blur-sm border border-void-600/50 rounded-xl;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-gradient-to-r from-neon-green via-neon-cyan to-neon-purple bg-clip-text text-transparent;
+  }
+
+  /* Status dot */
+  .status-dot {
+    @apply w-2 h-2 rounded-full bg-neon-green shadow-[0_0_6px_rgba(0,255,136,0.8)];
+  }
+
+  /* Grid pattern background */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Terminal output */
+  .terminal {
+    @apply font-mono text-sm bg-void-950 text-slate-300
+           border border-void-600/50 rounded-lg p-4
+           min-h-[120px] max-h-[240px] overflow-y-auto;
+  }
+
+  /* Language badge */
+  .lang-badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-mono
+           bg-void-700 text-neon-cyan border border-void-500;
+  }
+
+  /* Input field */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg font-mono text-sm
+           bg-void-900 border border-void-600
+           text-slate-200 placeholder-slate-600
+           focus:outline-none focus:border-neon-green focus:ring-1 focus:ring-neon-green/30
+           transition-all duration-200;
+  }
+}
+
+/* Monaco Editor overrides */
+.monaco-editor-container {
+  border-radius: 0;
+}
+
+/* Typing indicator animation */
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
+.typing-dot:nth-child(1) { animation: typing-bounce 1.2s ease-in-out infinite; }
+.typing-dot:nth-child(2) { animation: typing-bounce 1.2s ease-in-out 0.2s infinite; }
+.typing-dot:nth-child(3) { animation: typing-bounce 1.2s ease-in-out 0.4s infinite; }
+
+/* Scanline effect on header */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* Toast override */
+.toast-code {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 13px !important;
+}
+
+/* Light mode overrides */
+.light body {
+  @apply bg-slate-50 text-slate-900;
+}
+
+/* Pulse ring animation */
+@keyframes ping-slow {
+  75%, 100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+.animate-ping-slow {
+  animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
