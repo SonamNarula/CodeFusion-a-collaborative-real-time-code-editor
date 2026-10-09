@@ -26,7 +26,7 @@ CodeFusion uses **CRDTs (Yjs)** instead. Every edit is a small, mergeable operat
 
 ## Features
 
-| | |
+| Feature | What it does |
 |---|---|
 | **Conflict-free sync** | Two people typing at the same spot both keep their edits. No locking, no overwrites. |
 | **Offline-first** | Disconnect, keep editing, reconnect: changes merge. A local IndexedDB copy survives refreshes. |
