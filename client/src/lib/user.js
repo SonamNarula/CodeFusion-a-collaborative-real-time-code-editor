@@ -14,11 +14,13 @@ export const parseRoomInput = (s) => {
   return m ? m[1] : '';
 };
 
+// Identity is per tab (sessionStorage): two tabs of one browser count as two people, and a
+// refresh keeps the same identity. The display name is remembered across tabs (localStorage).
 export function loadUser() {
-  let id = localStorage.getItem('cf-uid');
-  if (!id) localStorage.setItem('cf-uid', (id = randomId(12)));
-  let color = localStorage.getItem('cf-color');
-  if (!color) localStorage.setItem('cf-color', (color = COLORS[Math.floor(Math.random() * COLORS.length)]));
+  let id = sessionStorage.getItem('cf-uid');
+  if (!id) sessionStorage.setItem('cf-uid', (id = randomId(12)));
+  let color = sessionStorage.getItem('cf-color');
+  if (!color) sessionStorage.setItem('cf-color', (color = COLORS[Math.floor(Math.random() * COLORS.length)]));
   return { id, color, name: cleanName(localStorage.getItem('cf-name')) };
 }
 

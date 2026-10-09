@@ -46,6 +46,8 @@ function RoomView({ roomId, user, created, startLang }) {
   const isHost = hostId === user.id;
   const locked = !!meta?.get('locked');
   const readOnly = locked && !isHost;
+  const hostPresent = peers.some((p) => p.user.id === hostId);
+  const canClaimHost = !!hostId && !isHost && !hostPresent && peers.length > 0;
   const timer = meta?.get('timer') || null;
   const lastRun = collab?.run.get('last');
   const canRun = language === 'javascript' || cfg.runnable.includes(language);
@@ -120,7 +122,7 @@ function RoomView({ roomId, user, created, startLang }) {
       <Topbar
         roomId={roomId} status={status} language={language} readOnly={readOnly}
         onLanguage={setLanguage} canRun={canRun} running={running} onRun={() => runRef.current()}
-        isHost={isHost} locked={locked} onToggleLock={() => meta.set('locked', !locked)}
+        isHost={isHost} canClaimHost={canClaimHost} onClaimHost={() => meta.set('host', user.id)} locked={locked} onToggleLock={() => meta.set('locked', !locked)}
         timer={timer} onSetTimer={(min) => (min ? meta.set('timer', { end: Date.now() + min * 60000, minutes: min }) : meta.delete('timer'))}
         onReplay={() => setReplay(true)} onDownload={download} onCopy={copyInvite}
         theme={theme} onToggleTheme={toggle}

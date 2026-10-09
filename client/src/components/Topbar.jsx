@@ -55,6 +55,9 @@ export default function Topbar(p) {
       <button className="btn primary" onClick={p.onRun} disabled={!p.canRun || p.running} title={p.canRun ? 'Run (Ctrl/Cmd + Enter)' : 'Running this language is not enabled on the server'}>
         {p.running ? 'Running…' : 'Run'}
       </button>
+      {p.canClaimHost && (
+        <button className="btn" onClick={p.onClaimHost} title="The host has left the room">Become host</button>
+      )}
       {p.isHost && (
         <button className={`btn ${p.locked ? 'active' : ''}`} onClick={p.onToggleLock} title="Make the room view-only for everyone except you">
           {p.locked ? 'Unlock editing' : 'Lock editing'}
