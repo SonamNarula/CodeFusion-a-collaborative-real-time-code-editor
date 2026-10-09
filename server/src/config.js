@@ -1,7 +1,25 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
+
+// Minimal .env loader (project root). Real environment variables always win.
+function loadEnvFile(file) {
+  let text;
+  try {
+    text = fs.readFileSync(file, 'utf8');
+  } catch {
+    return;
+  }
+  for (const raw of text.split(/\r?\n/)) {
+    const m = raw.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/);
+    if (!m || raw.trim().startsWith('#')) continue;
+    const value = m[2].replace(/^(['"])(.*)\1$/, '$2');
+    if (process.env[m[1]] === undefined && value !== '') process.env[m[1]] = value;
+  }
+}
+loadEnvFile(path.resolve(here, '../../.env'));
 
 export function loadConfig(overrides = {}) {
   const env = process.env;
