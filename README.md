@@ -97,7 +97,7 @@ git clone https://github.com/SonamNarula/CodeFusion-a-collaborative-real-time-co
 cd CodeFusion-a-collaborative-real-time-code-editor
 npm install
 cp .env.example .env      # optional: add GROQ_API_KEY to enable the AI
-npm run dev               # client on :5173, server on :5000
+npm run dev               # client on :5173, server on :5050
 ```
 
 Open **http://localhost:5173**, create a room, then open the invite link in a second browser window and type in both.
@@ -105,14 +105,14 @@ Open **http://localhost:5173**, create a room, then open the invite link in a se
 Production-style build served by a single Node process:
 
 ```bash
-npm run build && npm start      # http://localhost:5000
+npm run build && npm start      # http://localhost:5050
 ```
 
 ## Configuration
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `PORT` | `5000` | Server port |
+| `PORT` | `5050` | Server port |
 | `DATA_DIR` | `server/data` | Room snapshots and replay logs |
 | `CLIENT_URL` | any origin | Allowed origin(s), comma separated. Only needed if the client is hosted elsewhere |
 | `GROQ_API_KEY` | none | Enables the AI assistant |
@@ -126,10 +126,10 @@ npm run build && npm start      # http://localhost:5000
 **Docker**
 
 ```bash
-docker compose up --build        # http://localhost:5000, data persisted in the cfdata volume
+docker compose up --build        # http://localhost:5050, data persisted in the cfdata volume
 ```
 
-**Render, Railway, Fly.io**: deploy the repo using the included `Dockerfile`, expose port 5000 and mount a persistent volume at `/data`. The server serves the built client itself, so there is no CORS setup. WebSockets work out of the box on these platforms.
+**Render, Railway, Fly.io**: deploy the repo using the included `Dockerfile`, expose port 5050 and mount a persistent volume at `/data`. The server serves the built client itself, so there is no CORS setup. WebSockets work out of the box on these platforms.
 
 If you host the client separately (for example on Vercel), set `VITE_SERVER_URL` at build time and `CLIENT_URL` on the server.
 

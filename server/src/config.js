@@ -7,7 +7,7 @@ export function loadConfig(overrides = {}) {
   const env = process.env;
   const isProd = env.NODE_ENV === 'production';
   return {
-    port: Number(env.PORT) || 5000,
+    port: Number(env.PORT) || 5050,
     // Comma separated list. Leave empty to allow any origin (fine when client is served by this server).
     clientUrls: env.CLIENT_URL ? env.CLIENT_URL.split(',').map((s) => s.trim()) : null,
     dataDir: path.resolve(env.DATA_DIR || path.join(here, '../data')),
