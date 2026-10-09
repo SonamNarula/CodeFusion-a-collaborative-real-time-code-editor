@@ -1,0 +1,94 @@
+<svg xml:space="preserve" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="1000" height="600" role="img" aria-label="CodeFusion room: two cursors editing one file, shared output, chat and AI reply" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTozM2JiMzJmYS01NTM1LTQxMDItOWJjMy1kMzVhODYxZTA1M2QAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaC3GIC7vP1ArVSJ4kBrEE2YAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDoyZmY4M2YzYS0zOTQ1LTRmOTAtOTBlYi1mZmFmNzZhMGQ0YWRscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoRT1wabFG6vpvzxEW9AxBAgAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggvHhTq3Lhsc5fGHmTMaj0CY1fi+aF1zGNMHfRsSq6jPqkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaKT0aA1tMTGCnag5uo5z/pkAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYILl57g7hrJEKa03P79VHje3uHtTzn/4CU+Hl6pDXyBi6ZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQEVZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjMzYmIzMmZhLTU1MzUtNDEwMi05YmMzLWQzNWE4NjFlMDUzZC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmFlMjhiZTFkLWVmMWEtNDJjZi1iZjg2LTJmNjNjZWFhYmVkYXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCC8eFOrcuGxzl8YeZMxqPQJjV+L5oXXMY0wd9GxKrqM+qJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFgg/qjPohaMG8u7Kz1eIKt/Dt4QdaQMqPrT9V0+ClNKLNuiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggMhbyPql4FHntQS/v5EglVXcC2EbnmvzMoXjTgPpi1i50Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQOCcH5lm0eeQybx9yozD6endrgOn2vHyoXJgciPwoXkV9JSaWW1atFOtG2wtvkEVyrql0NjpUGa6L2ZaLG9ty7g=</c2pa:manifest></metadata>
+  <defs>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6e6ee0" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+  <rect x="-6" y="-6" width="1012" height="612" fill="none"/>
+  <rect x="0" y="0" width="1000" height="600" rx="16" fill="url(#glow)"/>
+  <rect x="2" y="2" width="996" height="596" rx="15" fill="#0f1218" stroke="#2a3042" stroke-width="1.5"/>
+
+  <!-- top bar -->
+  <path d="M2 17 a15 15 0 0 1 15 -15 H983 a15 15 0 0 1 15 15 V46 H2 Z" fill="#151925"/>
+  <circle cx="24" cy="24" r="6" fill="#ff5f57"/><circle cx="44" cy="24" r="6" fill="#febc2e"/><circle cx="64" cy="24" r="6" fill="#28c840"/>
+  <text x="104" y="29" font-family="'Segoe UI', system-ui, sans-serif" font-size="14" font-weight="700" fill="#a5a5ff">CodeFusion</text>
+  <rect x="216" y="12" width="150" height="24" rx="12" fill="#1c2233"/>
+  <text x="232" y="29" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="12" fill="#9aa3bd">room / k7x-9fqa</text>
+  <rect x="376" y="12" width="86" height="24" rx="12" fill="#1c2233"/>
+  <text x="392" y="29" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" fill="#9aa3bd">JavaScript</text>
+  <circle cx="862" cy="24" r="12" fill="#6e6ee0"/><text x="862" y="28" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#fff">S</text>
+  <circle cx="886" cy="24" r="12" fill="#14b8a6"/><text x="886" y="28" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#052e2b">A</text>
+  <rect x="912" y="11" width="74" height="26" rx="13" fill="#6e6ee0"/>
+  <text x="949" y="29" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#fff">&#9654; Run</text>
+
+  <!-- editor -->
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">
+    <g fill="#4a5169" text-anchor="end">
+      <text x="46" y="88">1</text><text x="46" y="114">2</text><text x="46" y="140">3</text><text x="46" y="166">4</text><text x="46" y="192">5</text>
+      <text x="46" y="218">6</text><text x="46" y="244">7</text><text x="46" y="270">8</text><text x="46" y="296">9</text><text x="46" y="322">10</text>
+    </g>
+    <rect x="58" y="176" width="640" height="22" fill="#6e6ee0" fill-opacity="0.10"/>
+    <text x="64" y="88" fill="#5c6480">// fib with memo, edited by both of us</text>
+    <text x="64" y="114"><tspan fill="#c792ea">const</tspan> <tspan fill="#c9cdd9">memo = </tspan><tspan fill="#c792ea">new</tspan> <tspan fill="#ffcb6b">Map</tspan><tspan fill="#c9cdd9">();</tspan></text>
+    <text x="64" y="140"><tspan fill="#c792ea">function</tspan> <tspan fill="#82aaff">fib</tspan><tspan fill="#c9cdd9">(n) {</tspan></text>
+    <text x="64" y="166" fill="#c9cdd9">  <tspan fill="#c792ea">if</tspan> (n &lt; <tspan fill="#f78c6c">2</tspan>) <tspan fill="#c792ea">return</tspan> n;</text>
+    <text x="64" y="192" fill="#c9cdd9">  <tspan fill="#c792ea">if</tspan> (memo.<tspan fill="#82aaff">has</tspan>(n)) <tspan fill="#c792ea">return</tspan> memo.<tspan fill="#82aaff">get</tspan>(n);</text>
+    <text x="64" y="218" fill="#c9cdd9">  <tspan fill="#c792ea">const</tspan> v = <tspan fill="#82aaff">fib</tspan>(n - <tspan fill="#f78c6c">1</tspan>) + <tspan fill="#82aaff">fib</tspan>(n - <tspan fill="#f78c6c">2</tspan>);</text>
+    <text x="64" y="244" fill="#c9cdd9">  memo.<tspan fill="#82aaff">set</tspan>(n, v);</text>
+    <text x="64" y="270" fill="#c9cdd9">  <tspan fill="#c792ea">return</tspan> v;</text>
+    <text x="64" y="296" fill="#c9cdd9">}</text>
+    <text x="64" y="322" fill="#c9cdd9">console.<tspan fill="#82aaff">log</tspan>(<tspan fill="#82aaff">fib</tspan>(<tspan fill="#f78c6c">40</tspan>));</text>
+  </g>
+  <!-- cursor: Sonam -->
+  <rect x="383" y="177" width="2" height="20" fill="#8b8bff"/>
+  <rect x="388" y="177" width="52" height="17" rx="4" fill="#6e6ee0"/>
+  <text x="396" y="189" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#fff">Sonam</text>
+  <!-- cursor: Aarav -->
+  <rect x="216" y="229" width="2" height="20" fill="#2dd4bf"/>
+  <rect x="221" y="229" width="50" height="17" rx="4" fill="#14b8a6"/>
+  <text x="229" y="241" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#052e2b">Aarav</text>
+
+  <!-- output panel -->
+  <rect x="2" y="400" width="700" height="198" fill="#0b0e14"/>
+  <line x1="2" y1="400" x2="702" y2="400" stroke="#232838"/>
+  <text x="24" y="428" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#7d849a" letter-spacing="1.5">OUTPUT</text>
+  <rect x="96" y="415" width="148" height="19" rx="9.5" fill="#14b8a6" fill-opacity="0.15"/>
+  <text x="108" y="429" font-family="'Segoe UI', sans-serif" font-size="11" fill="#5eead4">shared with everyone</text>
+  <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="15">
+    <text x="24" y="470" fill="#e6e9f2">102334155</text>
+    <text x="24" y="500" fill="#4ade80">exit 0</text>
+  </g>
+
+  <!-- sidebar -->
+  <line x1="702" y1="46" x2="702" y2="598" stroke="#232838"/>
+  <rect x="703" y="47" width="294" height="551" fill="#121520"/>
+  <text x="724" y="78" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#7d849a" letter-spacing="1.5">PEOPLE</text>
+  <circle cx="732" cy="102" r="6" fill="#6e6ee0"/><text x="748" y="106" font-family="'Segoe UI', sans-serif" font-size="13" fill="#e6e9f2">Sonam <tspan fill="#7d849a">(host)</tspan></text>
+  <circle cx="732" cy="128" r="6" fill="#14b8a6"/><text x="748" y="132" font-family="'Segoe UI', sans-serif" font-size="13" fill="#e6e9f2">Aarav <tspan fill="#5eead4">typing&#8230;</tspan></text>
+  <line x1="724" y1="150" x2="976" y2="150" stroke="#232838"/>
+
+  <text x="724" y="176" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#7d849a" letter-spacing="1.5">CHAT</text>
+  <rect x="724" y="190" width="190" height="34" rx="10" fill="#1c2233"/>
+  <text x="736" y="211" font-family="'Segoe UI', sans-serif" font-size="12.5" fill="#cfd4e4">memoise it, 2&#8319; is too slow</text>
+  <rect x="780" y="236" width="196" height="34" rx="10" fill="#6e6ee0"/>
+  <text x="792" y="257" font-family="'Segoe UI', sans-serif" font-size="12.5" fill="#fff">on it. watch the cursor</text>
+
+  <rect x="724" y="290" width="252" height="130" rx="12" fill="#171b2c" stroke="#33395a"/>
+  <text x="738" y="314" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#a5a5ff">&#10022; CodeFusion AI</text>
+  <g font-family="'Segoe UI', sans-serif" font-size="12.5" fill="#cfd4e4">
+    <text x="738" y="340">Memoisation turns the naive</text>
+    <text x="738" y="360">exponential recursion into a</text>
+    <text x="738" y="380">linear one: each n is solved</text>
+    <text x="738" y="400">once and then looked up.</text>
+  </g>
+
+  <rect x="724" y="540" width="252" height="34" rx="17" fill="#1c2233"/>
+  <text x="742" y="561" font-family="'Segoe UI', sans-serif" font-size="12.5" fill="#6c7490">Message, or /ai &lt;question&gt;</text>
+  <g font-family="'Segoe UI', sans-serif" font-size="11.5" fill="#a5a5ff">
+    <rect x="724" y="500" width="58" height="26" rx="13" fill="#1c2233"/><text x="753" y="517" text-anchor="middle">Explain</text>
+    <rect x="788" y="500" width="58" height="26" rx="13" fill="#1c2233"/><text x="817" y="517" text-anchor="middle">Review</text>
+    <rect x="852" y="500" width="58" height="26" rx="13" fill="#1c2233"/><text x="881" y="517" text-anchor="middle">Fix bug</text>
+    <rect x="916" y="500" width="60" height="26" rx="13" fill="#1c2233"/><text x="946" y="517" text-anchor="middle">Tests</text>
+  </g>
+</svg>
