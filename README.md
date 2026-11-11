@@ -55,7 +55,7 @@ npm run server:dev
 You should see:
 
 ```text
-CodeFusion listening on port 5000
+CodeFusion listening on port 5050
 ```
 
 ### 4. Start the frontend
@@ -68,7 +68,7 @@ npm run start:front
 
 ### 5. Open the app
 
-Visit **[http://localhost:3000](http://localhost:3000)**.
+Visit **[http://localhost:3001](http://localhost:3001)**.
 
 Then:
 
@@ -80,13 +80,13 @@ Then:
 6. Enter the copied room ID.
 7. Type in either editor and watch the other client update.
 
-> **Port 5000 already in use?** Start the backend on another port:
+> **The documented local setup uses ports 5050 and 3001.** If either is occupied, choose another port explicitly:
 >
 > ```bash
-> PORT=5050 npm run server:dev
+> PORT=5051 npm run server:dev
 > ```
 >
-> Then update the frontend proxy in `package.json` from `http://localhost:5000` to `http://localhost:5050`, or configure `REACT_APP_BACKEND_URL`.
+> Update the frontend proxy in `package.json` to match the backend port, and start the frontend with `PORT=3002 npm run start:front`.
 
 ### Quick troubleshooting
 
@@ -393,7 +393,7 @@ data/codefusion.db
 
 | Variable | Default | Description |
 |---|---|---|
-| `PORT` | `5000` | HTTP and Socket.IO port |
+| `PORT` | `5050` in the documented local setup; `5000` in code if unset | HTTP and Socket.IO port |
 | `JWT_SECRET` | `development-only-change-me` | JWT signing secret |
 | `CLIENT_ORIGIN` | `*` | Socket.IO allowed origin |
 | `DATABASE_PATH` | `data/codefusion.db` | SQLite database location |
@@ -406,11 +406,11 @@ Create a `.env` file for the backend shell, or export variables:
 ```bash
 export PORT=5050
 export JWT_SECRET="local-development-secret-change-me"
-export CLIENT_ORIGIN="http://localhost:3000"
+export CLIENT_ORIGIN="http://localhost:3001"
 export DATABASE_PATH="./data/codefusion.db"
 ```
 
-The React development server uses the `proxy` field in `package.json` for HTTP requests and defaults to `http://localhost:5000`. If the backend runs on another port, set the frontend proxy or use `REACT_APP_BACKEND_URL`.
+The React development server uses the `proxy` field in `package.json`, currently configured for `http://localhost:5050`. The documented frontend command uses port `3001`.
 
 ### Production configuration
 
@@ -438,13 +438,13 @@ npm run server:dev
 Terminal 2 — frontend:
 
 ```bash
-npm run start:front
+PORT=3001 npm run start:front
 ```
 
 Open:
 
 ```text
-http://localhost:3000
+http://localhost:3001
 ```
 
 ### Production mode
@@ -474,13 +474,13 @@ npm test                  # Jest/Create React App tests
 
 ### Running on another port
 
-If port 5000 is occupied:
+If port 5050 is occupied:
 
 ```bash
-PORT=5050 npm run server:dev
+PORT=5051 npm run server:dev
 ```
 
-The frontend proxy remains configured for port 5000, so update the proxy in `package.json` or configure `REACT_APP_BACKEND_URL` for a different development topology.
+Update the `proxy` field in `package.json` to `http://localhost:5051`, or run the frontend against a separately configured backend URL.
 
 ---
 
@@ -1716,6 +1716,218 @@ curl -X POST http://localhost:5050/api/rooms \
 - Never execute untrusted code inside the main API process.
 
 ---
+
+## 29. Build Journal: What Was Difficult and What Was Fixed
+
+This section is deliberately candid. A project is easier to discuss in an interview when the author can explain not only the happy path, but also the failures, diagnosis, trade-offs, and follow-up work.
+
+### 29.1 The repository and remote mismatch
+
+The original local project had been based on a different upstream repository. The intended destination was the CodeFusion repository owned by `SonamNarula`. A normal push initially failed with a permission error because the local `origin` pointed at the upstream repository rather than the destination repository.
+
+**Lesson:** Always verify `git remote -v` before pushing. A successful local commit says nothing about whether the configured remote is writable or even the intended project.
+
+### 29.2 Unrelated Git histories
+
+The destination repository already contained unrelated files and commits. A normal merge was rejected because Git could not find a common ancestor. A merge was attempted, conflicts appeared, and the merge was aborted rather than mixing incompatible application histories. The destination branch was then intentionally replaced after explicit confirmation.
+
+**Lesson:** `--force-with-lease` is safer than `--force` because it refuses to overwrite a remote branch that changed unexpectedly. It is still destructive and should only be used with a clear ownership decision and a verified remote.
+
+### 29.3 Port conflicts on macOS
+
+Port `5000` was already occupied by a macOS service. Later, starting a second CodeFusion backend on `5050` produced `EADDRINUSE` because an earlier Node process was already listening there. Exit code `143` meant a process received `SIGTERM`; it did not mean the application code had thrown a syntax error.
+
+The reliable diagnostic sequence is:
+
+```bash
+lsof -nP -iTCP:5050 -sTCP:LISTEN
+curl -i http://localhost:5050/api/me
+```
+
+The expected unauthenticated result from `/api/me` is HTTP `401`; that proves the server is alive and enforcing authentication.
+
+**Lesson:** Do not start duplicate servers blindly. Identify the listener, decide which process should own the port, terminate only the known process, and verify with an HTTP request.
+
+### 29.4 Stale JWT authentication
+
+The browser stores the access token under `codefusion_token`. When the server secret changes, a token expires, or the database no longer contains the token's user, protected API calls return `401`. The original flow left the stale token in storage and produced a confusing authentication toast.
+
+The current frontend removes the token after a `401` and asks the user to sign in again. A production system should use short-lived access tokens with refresh-token rotation and preferably an HttpOnly, SameSite cookie.
+
+### 29.5 Empty editor snapshots overwriting starter code
+
+The frontend initially supplied starter code for an empty room. However, the Socket.IO `sync-code` event subsequently sent the persisted empty string and overwrote the editor. Whitespace-only database values created the same symptom.
+
+The fix moved initialization to the source of truth:
+
+1. New rooms are created with starter code.
+2. Existing whitespace-only rooms are migrated when fetched.
+3. Socket synchronization applies the same fallback before sending a snapshot.
+4. The editor uses a stable textarea ref and refreshes CodeMirror after mount.
+
+**Lesson:** UI defaults are not persistence. If a value must survive reconnects, initialize and validate it at the server boundary.
+
+### 29.6 CodeMirror mounting and raw textarea fallback
+
+CodeMirror 5 transforms a textarea into its own DOM structure. If initialization runs against an unstable selector, or the component is mounted and cleaned up during a development remount, the original textarea can become visible. The result looked like a broken editor even though the React tree had rendered.
+
+The current editor:
+
+- Uses a React ref rather than a global DOM lookup.
+- Avoids duplicate CodeMirror instances.
+- Calls `refresh()` after layout.
+- Cleans up the instance explicitly.
+- Styles the textarea fallback so failure is readable rather than a white browser default.
+
+### 29.7 Why the first visual designs missed the mark
+
+The early UI over-indexed on gradients, glow, transparency, and marketing-page styling. It looked visually busy but did not communicate editor hierarchy. The main work surface became a large empty rectangle, the sidebars consumed too much width in an embedded browser, and a host-editor mascot overlay was mistaken for application UI.
+
+The revised design uses a graphite IDE surface, small controlled accent colors, compact chrome, clear borders, predictable spacing, and responsive sidebar collapse. The design principle is now: **make the code and collaboration state visually dominant; use glass and neon only as supporting language.**
+
+### 29.8 Known warnings and why they matter
+
+The production build currently reports:
+
+- React hook dependency warnings in the CodeMirror integration.
+- A `Function` constructor warning for browser-side JavaScript execution.
+- React Router future-flag warnings.
+
+These are not equivalent:
+
+- Hook warnings can indicate stale closures or missed lifecycle updates and should be cleaned up before a larger refactor.
+- `Function` is a real security warning. It must not be presented as a production sandbox.
+- Router future flags are migration notices, not application failures.
+
+### 29.9 What remains before production
+
+The next engineering milestones should be:
+
+1. Add API and Socket.IO integration tests.
+2. Replace full-document last-write-wins updates with revisions plus acknowledgements.
+3. Add CRDT or OT for concurrent editing.
+4. Move auth to refreshable HttpOnly sessions.
+5. Add rate limiting, strict CORS, validation schemas, and structured logs.
+6. Replace SQLite with PostgreSQL and add migrations/backups.
+7. Add Redis Socket.IO adapter for multiple instances.
+8. Move code execution to an isolated runner service.
+9. Add health/readiness endpoints and graceful shutdown.
+10. Add browser-level tests for login, room creation, collaboration, theme switching, and run output.
+
+## 30. Cross-Question Interview Drill
+
+These are follow-up questions an interviewer can ask after the primary answer. Each answer is intentionally short enough to say aloud, with the deeper implication included.
+
+### Architecture cross-questions
+
+**Q: Why use REST and Socket.IO together?**  
+**A:** REST handles durable request/response operations such as authentication and room membership. Socket.IO handles long-lived bidirectional events such as edits and presence. Combining them keeps each protocol focused.
+
+**Q: Why not put room creation inside Socket.IO?**  
+**A:** Room creation is a durable resource operation with validation and an HTTP response. Socket events are better for live state changes after the resource exists.
+
+**Q: What is the authoritative state?**  
+**A:** The persisted room snapshot is the recovery source. The connected editor is an optimistic view, and Socket.IO distributes changes between connected clients.
+
+**Q: What happens when two users edit at the same time?**  
+**A:** The current last-write-wins model allows one complete document to replace another. It is understandable but can lose edits; CRDT/OT is the correct next step.
+
+**Q: Why send the entire document?**  
+**A:** It minimizes protocol complexity and makes reconnect synchronization simple. The cost is bandwidth, latency, and poor concurrent-edit semantics.
+
+**Q: What is the unit of consistency?**  
+**A:** Today it is the room's latest document snapshot. A stronger design would use document revisions or operation IDs and reject or merge stale writes.
+
+### Backend cross-questions
+
+**Q: How do you know a socket is allowed into a room?**  
+**A:** The connection authenticates the JWT, then the `join` handler checks membership in `room_members` before joining the Socket.IO room.
+
+**Q: Is authentication the same as authorization?**  
+**A:** No. JWT verification authenticates identity. Room membership authorizes access to a particular room.
+
+**Q: What happens if a user joins with a valid token but an unknown room ID?**  
+**A:** The HTTP join route returns `404`. The socket path must also validate the room and membership before broadcasting or syncing.
+
+**Q: Can a client emit an edit for another room?**  
+**A:** The server checks `socket.data.roomId === roomId` before accepting the event. Server-side checks are required because clients are untrusted.
+
+**Q: How do you handle malformed Socket.IO payloads?**  
+**A:** Validate type, room identity, and maximum size at the event boundary. A production implementation should use a schema validator and emit a structured error or acknowledgement.
+
+**Q: What if the database write fails?**  
+**A:** The current implementation needs stronger explicit error handling and acknowledgements. Production behavior should distinguish “broadcast accepted” from “durably persisted” and define retry semantics.
+
+**Q: Why enable SQLite WAL mode?**  
+**A:** WAL improves read/write concurrency for a local SQLite workload and allows readers to continue while a writer appends to the log. It does not turn SQLite into a multi-host database.
+
+### Frontend cross-questions
+
+**Q: Why store the socket in a ref?**  
+**A:** A socket is an imperative resource that should persist across renders without causing renders. A ref gives lifecycle ownership without putting the connection object in React state.
+
+**Q: How do you avoid rebroadcast loops?**  
+**A:** Remote updates are applied with an `applyingRemote` guard. The change handler ignores `setValue` updates while that guard is active.
+
+**Q: Why can the editor become blank after reconnect?**  
+**A:** A stale or empty server snapshot can overwrite the local view. This is why server initialization, snapshot validation, and revision-aware synchronization matter.
+
+**Q: Why CodeMirror 5 instead of Monaco?**  
+**A:** CodeMirror 5 is lightweight and quick to integrate. Monaco offers a richer VS Code-like experience but adds bundle weight and more integration complexity.
+
+**Q: How would you implement multi-file editing?**  
+**A:** Model files as room children with stable file IDs, persist active-file metadata separately, authorize file operations through room membership, and synchronize each file as its own document stream.
+
+**Q: How would you show remote cursors?**  
+**A:** Emit throttled cursor and selection positions with a client ID, render decorations in the editor, and expire presence when the socket disconnects.
+
+### Security cross-questions
+
+**Q: Is localStorage JWT storage ideal?**  
+**A:** No. It is simple but exposed to JavaScript running under an XSS condition. HttpOnly SameSite cookies plus CSRF protection are safer for a production browser app.
+
+**Q: Is `Function()` a sandbox?**  
+**A:** Absolutely not. It executes in the browser's JavaScript context and must not be treated as secure isolation. Untrusted execution belongs in a separate sandboxed service.
+
+**Q: What controls are needed for a run service?**  
+**A:** Process isolation, no privileged filesystem access, network policy, CPU/memory/time/output limits, per-run identity, quotas, cancellation, and monitoring.
+
+**Q: Why hash passwords with bcrypt?**  
+**A:** Passwords must not be stored in plaintext. Bcrypt is intentionally slow and salted, which makes offline guessing more expensive. A modern deployment should also consider Argon2id.
+
+**Q: What does strict CORS protect?**  
+**A:** It controls which browser origins may make cross-origin requests. It is not authentication and does not replace server-side authorization.
+
+### Scaling cross-questions
+
+**Q: What breaks first at scale?**  
+**A:** Full-document broadcasts and SQLite write contention are early limits. Large rooms also increase fan-out, payload size, and persistence pressure.
+
+**Q: How do you scale horizontally?**  
+**A:** Use multiple API/socket instances behind a load balancer, Redis for Socket.IO pub/sub, shared durable storage, external session/token strategy, and observability.
+
+**Q: Do you need sticky sessions?**  
+**A:** With Socket.IO transports and a shared adapter, sticky sessions may still simplify connection behavior, but the system must not rely on process-local room state as the only source of truth.
+
+**Q: How would you reduce bandwidth?**  
+**A:** Send operations or patches, debounce or batch updates, compress payloads where useful, and avoid broadcasting an edit back to its origin.
+
+**Q: How do you recover after a server crash?**  
+**A:** Reconnect clients, load the latest durable snapshot, replay an operation log if available, and surface conflicts rather than silently discarding local edits.
+
+### Product and ownership cross-questions
+
+**Q: Who is CodeFusion for?**  
+**A:** Teams doing pair programming, technical interviews, mentoring, workshops, and remote debugging where shared code and presence matter.
+
+**Q: What is the most important product limitation?**  
+**A:** Collaboration is not yet conflict-free, and code execution is not production-safe. Both should be clearly communicated rather than hidden behind UI polish.
+
+**Q: What would you measure first?**  
+**A:** Room creation success, join success, active rooms, edit latency, reconnect rate, dropped events, persistence failures, and session conversion from landing page to room.
+
+**Q: What would you build next with one week?**  
+**A:** Revisions plus acknowledgements, integration tests, structured validation, a real health endpoint, and an isolated execution prototype. Reliability comes before more decorative UI.
 
 ## License
 

@@ -2,7 +2,22 @@
   "name": "codefusion",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "description": "A premium authenticated real-time collaborative code editor built with React, Express, SQLite, and Socket.IO.",
+  "keywords": [
+    "collaborative-code-editor",
+    "realtime",
+    "socket.io",
+    "react",
+    "express",
+    "sqlite",
+    "pair-programming",
+    "technical-interviews"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SonamNarula/CodeFusion-a-collaborative-real-time-code-editor.git"
+  },
+  "proxy": "http://localhost:5050",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",

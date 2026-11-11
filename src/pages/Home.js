@@ -5,9 +5,17 @@ import { useNavigate } from 'react-router-dom';
 const api = async (path, options = {}) => {
     const response = await fetch(path, {
         ...options,
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('codefusion_token') || ''}`, ...options.headers },
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('codefusion_token') || ''}`,
+            ...options.headers,
+        },
     });
     const data = await response.json();
+    if (response.status === 401) {
+        localStorage.removeItem('codefusion_token');
+        throw new Error('Your session expired. Please sign in again.');
+    }
     if (!response.ok) throw new Error(data.error || 'Request failed');
     return data;
 };
@@ -22,12 +30,21 @@ const Home = () => {
         event.preventDefault();
         setBusy(true);
         try {
-            if (!localStorage.getItem('codefusion_token')) {
-                const data = await api(`/api/auth/${mode}`, { method: 'POST', body: JSON.stringify(form) });
+            const token = localStorage.getItem('codefusion_token');
+            if (!token) {
+                const data = await api(`/api/auth/${mode}`, {
+                    method: 'POST',
+                    body: JSON.stringify(form),
+                });
                 localStorage.setItem('codefusion_token', data.token);
             }
             let roomId = form.roomId.trim();
-            if (!roomId) roomId = (await api('/api/rooms', { method: 'POST', body: JSON.stringify({ name: 'CodeFusion room' }) })).room.id;
+            if (!roomId) {
+                roomId = (await api('/api/rooms', {
+                    method: 'POST',
+                    body: JSON.stringify({ name: 'CodeFusion workspace' }),
+                })).room.id;
+            }
             await api(`/api/rooms/${roomId}/join`, { method: 'POST' });
             navigate(`/editor/${roomId}`);
         } catch (error) {
@@ -37,31 +54,46 @@ const Home = () => {
         }
     };
 
-    const logout = () => { localStorage.removeItem('codefusion_token'); setForm({ username: '', password: '', roomId: '' }); };
-    const authenticated = Boolean(localStorage.getItem('codefusion_token'));
+    const update = (field) => (event) => setForm({ ...form, [field]: event.target.value });
 
     return (
-        <main className="homePageWrapper">
-            <section className="formWrapper">
-                <img className="homePageLogo" src="/code-sync.png" alt="CodeFusion logo" />
-                <h1>CodeFusion</h1>
-                <p className="muted">Collaborative coding, built for focused teams.</p>
-                {!authenticated ? (
-                    <form className="inputGroup" onSubmit={submit}>
-                        <div className="tabs"><button type="button" className={mode === 'login' ? 'active' : ''} onClick={() => setMode('login')}>Sign in</button><button type="button" className={mode === 'register' ? 'active' : ''} onClick={() => setMode('register')}>Create account</button></div>
-                        <input className="inputBox" required minLength="3" maxLength="30" placeholder="Username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} />
-                        <input className="inputBox" required minLength="8" type="password" placeholder="Password (8+ characters)" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
-                        <input className="inputBox" placeholder="Existing room ID (optional)" value={form.roomId} onChange={(e) => setForm({ ...form, roomId: e.target.value })} />
-                        <button className="btn joinBtn" disabled={busy}>{busy ? 'Please wait…' : mode === 'login' ? 'Sign in & enter' : 'Register & enter'}</button>
-                    </form>
-                ) : (
-                    <form className="inputGroup" onSubmit={submit}>
-                        <input className="inputBox" placeholder="Room ID (leave empty to create one)" value={form.roomId} onChange={(e) => setForm({ ...form, roomId: e.target.value })} />
-                        <button className="btn joinBtn" disabled={busy}>{busy ? 'Please wait…' : 'Enter room'}</button>
-                        <button type="button" className="textBtn" onClick={logout}>Sign out</button>
-                    </form>
-                )}
+        <main className="landing">
+            <div className="aurora auroraOne" />
+            <div className="aurora auroraTwo" />
+            <nav className="landingNav">
+                <div className="brand"><span className="brandMark">⌘</span><span>Code<span>Fusion</span></span></div>
+                <div className="navPill"><span className="liveDot" /> Live collaboration, reimagined</div>
+            </nav>
+            <section className="hero">
+                <div className="heroCopy">
+                    <div className="eyebrow"><span className="sparkle">✦</span> THE MODERN COLLABORATIVE IDE</div>
+                    <h1>Build together.<br /><em>Ship brilliantly.</em></h1>
+                    <p className="heroText">A beautiful real-time workspace for teams who think, prototype, and create at the speed of conversation.</p>
+                    <div className="heroStats">
+                        <div><strong>∞</strong><span>Shared rooms</span></div>
+                        <div><strong>10+</strong><span>Editor languages</span></div>
+                        <div><strong>1</strong><span>Shared source of truth</span></div>
+                    </div>
+                </div>
+                <div className="authCard">
+                    <div className="windowControls"><i /><i /><i /><span>Welcome to CodeFusion</span></div>
+                    <div className="authContent">
+                        <div className="authIcon">⌘</div>
+                        <h2>{mode === 'login' ? 'Welcome back' : 'Create your workspace'}</h2>
+                        <p>Sign in to continue to your collaborative rooms.</p>
+                        <form onSubmit={submit}>
+                            <label>Username<input required minLength="3" maxLength="30" value={form.username} onChange={update('username')} placeholder="your handle" /></label>
+                            <label>Password<input required minLength="8" type="password" value={form.password} onChange={update('password')} placeholder="8+ characters" /></label>
+                            <label>Room ID <small>optional</small><input value={form.roomId} onChange={update('roomId')} placeholder="Leave empty to create a room" /></label>
+                            <button className="primaryButton" disabled={busy}>{busy ? 'Preparing your workspace…' : mode === 'login' ? 'Enter CodeFusion  →' : 'Create account  →'}</button>
+                        </form>
+                        <button className="switchAuth" onClick={() => setMode(mode === 'login' ? 'register' : 'login')}>
+                            {mode === 'login' ? 'New to CodeFusion? Create an account' : 'Already have an account? Sign in'}
+                        </button>
+                    </div>
+                </div>
             </section>
+            <footer className="landingFooter"><span>CodeFusion</span><span>Designed for deep work and fast feedback</span><span>Secure by default · Built for teams</span></footer>
         </main>
     );
 };

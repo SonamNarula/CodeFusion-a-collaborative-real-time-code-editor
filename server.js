@@ -16,6 +16,12 @@ const databasePath = process.env.DATABASE_PATH || path.join(__dirname, 'data', '
 fs.mkdirSync(path.dirname(databasePath), { recursive: true });
 const db = new Database(databasePath);
 db.pragma('journal_mode = WAL');
+const starterCode = `// Welcome to CodeFusion
+// Edit this file with your team in real time.
+
+const greeting = 'Hello from CodeFusion';
+console.log(greeting);
+`;
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY, username TEXT UNIQUE NOT NULL, password_hash TEXT NOT NULL, created_at TEXT NOT NULL
@@ -84,15 +90,19 @@ app.get('/api/me', auth, (req, res) => res.json({ user: publicUser(req.user) }))
 app.post('/api/rooms', auth, (req, res) => {
   const id = crypto.randomUUID();
   const timestamp = now();
-  db.prepare('INSERT INTO rooms (id, owner_id, name, created_at, updated_at) VALUES (?, ?, ?, ?, ?)')
-    .run(id, req.user.id, String(req.body.name || 'Untitled room').trim().slice(0, 80) || 'Untitled room', timestamp, timestamp);
+  db.prepare('INSERT INTO rooms (id, owner_id, name, code, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)')
+    .run(id, req.user.id, String(req.body.name || 'Untitled room').trim().slice(0, 80) || 'Untitled room', starterCode, timestamp, timestamp);
   db.prepare('INSERT INTO room_members VALUES (?, ?, ?)').run(id, req.user.id, timestamp);
   return res.status(201).json({ room: db.prepare('SELECT id, name, code, language FROM rooms WHERE id = ?').get(id) });
 });
 
 app.get('/api/rooms/:id', auth, (req, res) => {
-  const room = db.prepare('SELECT id, name, code, language, owner_id AS ownerId FROM rooms WHERE id = ?').get(req.params.id);
+  let room = db.prepare('SELECT id, name, code, language, owner_id AS ownerId FROM rooms WHERE id = ?').get(req.params.id);
   if (!room) return res.status(404).json({ error: 'Room not found' });
+  if (!room.code.trim()) {
+    db.prepare('UPDATE rooms SET code = ?, updated_at = ? WHERE id = ?').run(starterCode, now(), req.params.id);
+    room = { ...room, code: starterCode };
+  }
   return res.json({ room });
 });
 
@@ -138,7 +148,11 @@ io.on('connection', (socket) => {
     socket.join(roomId);
     socket.data.roomId = roomId;
     io.to(roomId).emit(ACTIONS.JOINED, { clients: roomClients(roomId), username: socket.user.username, socketId: socket.id });
-    const room = db.prepare('SELECT code, language FROM rooms WHERE id = ?').get(roomId);
+    let room = db.prepare('SELECT code, language FROM rooms WHERE id = ?').get(roomId);
+    if (!room.code.trim()) {
+      db.prepare('UPDATE rooms SET code = ?, updated_at = ? WHERE id = ?').run(starterCode, now(), roomId);
+      room = { ...room, code: starterCode };
+    }
     socket.emit(ACTIONS.SYNC_CODE, room);
   });
   socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {

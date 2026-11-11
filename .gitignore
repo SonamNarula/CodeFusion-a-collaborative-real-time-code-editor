@@ -12,6 +12,9 @@
 
 # production
 /build
+/data
+*.db-shm
+*.db-wal
 
 # misc
 .DS_Store
