@@ -1,11 +1,9 @@
 import { io } from 'socket.io-client';
 
-export const initSocket = async () => {
-    const options = {
-        'force new connection': true,
-        reconnectionAttempt: 'Infinity',
-        timeout: 10000,
-        transports: ['websocket'],
-    };
-    return io(process.env.REACT_APP_BACKEND_URL, options);
-};
+export const initSocket = () => io(process.env.REACT_APP_BACKEND_URL || window.location.origin, {
+    auth: { token: localStorage.getItem('codefusion_token') },
+    reconnection: true,
+    reconnectionAttempts: Infinity,
+    reconnectionDelayMax: 5000,
+    timeout: 10000,
+});

@@ -1,87 +1,68 @@
 import React, { useState } from 'react';
-import { v4 as uuidV4 } from 'uuid';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
+const api = async (path, options = {}) => {
+    const response = await fetch(path, {
+        ...options,
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('codefusion_token') || ''}`, ...options.headers },
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Request failed');
+    return data;
+};
+
 const Home = () => {
     const navigate = useNavigate();
+    const [mode, setMode] = useState('login');
+    const [form, setForm] = useState({ username: '', password: '', roomId: '' });
+    const [busy, setBusy] = useState(false);
 
-    const [roomId, setRoomId] = useState('');
-    const [username, setUsername] = useState('');
-    const createNewRoom = (e) => {
-        e.preventDefault();
-        const id = uuidV4();
-        setRoomId(id);
-        toast.success('Created a new room');
-    };
-
-    const joinRoom = () => {
-        if (!roomId || !username) {
-            toast.error('ROOM ID & username is required');
-            return;
-        }
-
-        // Redirect
-        navigate(`/editor/${roomId}`, {
-            state: {
-                username,
-            },
-        });
-    };
-
-    const handleInputEnter = (e) => {
-        if (e.code === 'Enter') {
-            joinRoom();
+    const submit = async (event) => {
+        event.preventDefault();
+        setBusy(true);
+        try {
+            if (!localStorage.getItem('codefusion_token')) {
+                const data = await api(`/api/auth/${mode}`, { method: 'POST', body: JSON.stringify(form) });
+                localStorage.setItem('codefusion_token', data.token);
+            }
+            let roomId = form.roomId.trim();
+            if (!roomId) roomId = (await api('/api/rooms', { method: 'POST', body: JSON.stringify({ name: 'CodeFusion room' }) })).room.id;
+            await api(`/api/rooms/${roomId}/join`, { method: 'POST' });
+            navigate(`/editor/${roomId}`);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setBusy(false);
         }
     };
+
+    const logout = () => { localStorage.removeItem('codefusion_token'); setForm({ username: '', password: '', roomId: '' }); };
+    const authenticated = Boolean(localStorage.getItem('codefusion_token'));
+
     return (
-        <div className="homePageWrapper">
-            <div className="formWrapper">
-                <img
-                    className="homePageLogo"
-                    src="/code-sync.png"
-                    alt="code-sync-logo"
-                />
-                <h4 className="mainLabel">Paste invitation ROOM ID</h4>
-                <div className="inputGroup">
-                    <input
-                        type="text"
-                        className="inputBox"
-                        placeholder="ROOM ID"
-                        onChange={(e) => setRoomId(e.target.value)}
-                        value={roomId}
-                        onKeyUp={handleInputEnter}
-                    />
-                    <input
-                        type="text"
-                        className="inputBox"
-                        placeholder="USERNAME"
-                        onChange={(e) => setUsername(e.target.value)}
-                        value={username}
-                        onKeyUp={handleInputEnter}
-                    />
-                    <button className="btn joinBtn" onClick={joinRoom}>
-                        Join
-                    </button>
-                    <span className="createInfo">
-                        If you don't have an invite then create &nbsp;
-                        <a
-                            onClick={createNewRoom}
-                            href=""
-                            className="createNewBtn"
-                        >
-                            new room
-                        </a>
-                    </span>
-                </div>
-            </div>
-            <footer>
-                <h4>
-                    Built with 💛 &nbsp; by &nbsp;
-                    <a href="https://github.com/codersgyan">Coder's Gyan</a>
-                </h4>
-            </footer>
-        </div>
+        <main className="homePageWrapper">
+            <section className="formWrapper">
+                <img className="homePageLogo" src="/code-sync.png" alt="CodeFusion logo" />
+                <h1>CodeFusion</h1>
+                <p className="muted">Collaborative coding, built for focused teams.</p>
+                {!authenticated ? (
+                    <form className="inputGroup" onSubmit={submit}>
+                        <div className="tabs"><button type="button" className={mode === 'login' ? 'active' : ''} onClick={() => setMode('login')}>Sign in</button><button type="button" className={mode === 'register' ? 'active' : ''} onClick={() => setMode('register')}>Create account</button></div>
+                        <input className="inputBox" required minLength="3" maxLength="30" placeholder="Username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} />
+                        <input className="inputBox" required minLength="8" type="password" placeholder="Password (8+ characters)" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+                        <input className="inputBox" placeholder="Existing room ID (optional)" value={form.roomId} onChange={(e) => setForm({ ...form, roomId: e.target.value })} />
+                        <button className="btn joinBtn" disabled={busy}>{busy ? 'Please wait…' : mode === 'login' ? 'Sign in & enter' : 'Register & enter'}</button>
+                    </form>
+                ) : (
+                    <form className="inputGroup" onSubmit={submit}>
+                        <input className="inputBox" placeholder="Room ID (leave empty to create one)" value={form.roomId} onChange={(e) => setForm({ ...form, roomId: e.target.value })} />
+                        <button className="btn joinBtn" disabled={busy}>{busy ? 'Please wait…' : 'Enter room'}</button>
+                        <button type="button" className="textBtn" onClick={logout}>Sign out</button>
+                    </form>
+                )}
+            </section>
+        </main>
     );
 };
 

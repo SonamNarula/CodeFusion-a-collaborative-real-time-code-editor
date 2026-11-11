@@ -1,133 +1,60 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate, useParams } from 'react-router-dom';
 import ACTIONS from '../Actions';
 import Client from '../components/Client';
 import Editor from '../components/Editor';
 import { initSocket } from '../socket';
-import {
-    useLocation,
-    useNavigate,
-    Navigate,
-    useParams,
-} from 'react-router-dom';
 
 const EditorPage = () => {
-    const socketRef = useRef(null);
-    const codeRef = useRef(null);
-    const location = useLocation();
     const { roomId } = useParams();
-    const reactNavigator = useNavigate();
+    const navigate = useNavigate();
+    const socketRef = useRef(null);
+    const codeRef = useRef('');
+    const [room, setRoom] = useState(null);
     const [clients, setClients] = useState([]);
+    const [language, setLanguage] = useState('javascript');
+    const [connected, setConnected] = useState(false);
 
     useEffect(() => {
-        const init = async () => {
-            socketRef.current = await initSocket();
-            socketRef.current.on('connect_error', (err) => handleErrors(err));
-            socketRef.current.on('connect_failed', (err) => handleErrors(err));
-
-            function handleErrors(e) {
-                console.log('socket error', e);
-                toast.error('Socket connection failed, try again later.');
-                reactNavigator('/');
-            }
-
-            socketRef.current.emit(ACTIONS.JOIN, {
-                roomId,
-                username: location.state?.username,
-            });
-
-            // Listening for joined event
-            socketRef.current.on(
-                ACTIONS.JOINED,
-                ({ clients, username, socketId }) => {
-                    if (username !== location.state?.username) {
-                        toast.success(`${username} joined the room.`);
-                        console.log(`${username} joined`);
-                    }
-                    setClients(clients);
-                    socketRef.current.emit(ACTIONS.SYNC_CODE, {
-                        code: codeRef.current,
-                        socketId,
-                    });
-                }
-            );
-
-            // Listening for disconnected
-            socketRef.current.on(
-                ACTIONS.DISCONNECTED,
-                ({ socketId, username }) => {
-                    toast.success(`${username} left the room.`);
-                    setClients((prev) => {
-                        return prev.filter(
-                            (client) => client.socketId !== socketId
-                        );
-                    });
-                }
-            );
+        const load = async () => {
+            const response = await fetch(`/api/rooms/${roomId}`, { headers: { Authorization: `Bearer ${localStorage.getItem('codefusion_token')}` } });
+            if (!response.ok) return navigate('/');
+            const data = await response.json();
+            setRoom(data.room); codeRef.current = data.room.code; setLanguage(data.room.language);
+            socketRef.current = initSocket();
+            socketRef.current.on('connect', () => { setConnected(true); socketRef.current.emit(ACTIONS.JOIN, { roomId }); });
+            socketRef.current.on('disconnect', () => setConnected(false));
+            socketRef.current.on(ACTIONS.JOINED, ({ clients: members }) => setClients(members));
+            socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => { setClients((prev) => prev.filter((client) => client.socketId !== socketId)); toast(`${username} left the room`); });
+            socketRef.current.on(ACTIONS.LANGUAGE_CHANGE, ({ language: next }) => setLanguage(next));
+            socketRef.current.on(ACTIONS.ERROR, ({ message }) => { toast.error(message); navigate('/'); });
         };
-        init();
-        return () => {
-            socketRef.current.disconnect();
-            socketRef.current.off(ACTIONS.JOINED);
-            socketRef.current.off(ACTIONS.DISCONNECTED);
-        };
-    }, []);
+        load().catch(() => navigate('/'));
+        return () => socketRef.current?.disconnect();
+    }, [roomId, navigate]);
 
-    async function copyRoomId() {
-        try {
-            await navigator.clipboard.writeText(roomId);
-            toast.success('Room ID has been copied to your clipboard');
-        } catch (err) {
-            toast.error('Could not copy the Room ID');
-            console.error(err);
-        }
-    }
-
-    function leaveRoom() {
-        reactNavigator('/');
-    }
-
-    if (!location.state) {
-        return <Navigate to="/" />;
-    }
-
+    const changeLanguage = (next) => {
+        setLanguage(next);
+        socketRef.current?.emit(ACTIONS.LANGUAGE_CHANGE, { roomId, language: next });
+    };
+    const copyRoomId = async () => { await navigator.clipboard.writeText(roomId); toast.success('Room ID copied'); };
+    if (!room) return <div className="loading">Loading room…</div>;
     return (
         <div className="mainWrap">
-            <div className="aside">
+            <aside className="aside">
                 <div className="asideInner">
-                    <div className="logo">
-                        <img
-                            className="logoImage"
-                            src="/code-sync.png"
-                            alt="logo"
-                        />
-                    </div>
-                    <h3>Connected</h3>
-                    <div className="clientsList">
-                        {clients.map((client) => (
-                            <Client
-                                key={client.socketId}
-                                username={client.username}
-                            />
-                        ))}
-                    </div>
+                    <img className="logoImage" src="/code-sync.png" alt="CodeFusion" />
+                    <div className="roomHeader"><h2>{room.name}</h2><span className={connected ? 'status online' : 'status'}>{connected ? 'Connected' : 'Reconnecting'}</span></div>
+                    <label className="fieldLabel" htmlFor="language">Language</label>
+                    <select id="language" className="inputBox" value={language} onChange={(e) => changeLanguage(e.target.value)}><option value="javascript">JavaScript</option><option value="python">Python</option><option value="html">HTML</option><option value="json">JSON</option></select>
+                    <h3>Participants ({clients.length})</h3>
+                    <div className="clientsList">{clients.map((client) => <Client key={client.socketId} username={client.username} />)}</div>
                 </div>
-                <button className="btn copyBtn" onClick={copyRoomId}>
-                    Copy ROOM ID
-                </button>
-                <button className="btn leaveBtn" onClick={leaveRoom}>
-                    Leave
-                </button>
-            </div>
-            <div className="editorWrap">
-                <Editor
-                    socketRef={socketRef}
-                    roomId={roomId}
-                    onCodeChange={(code) => {
-                        codeRef.current = code;
-                    }}
-                />
-            </div>
+                <button className="btn copyBtn" onClick={copyRoomId}>Copy room ID</button>
+                <button className="btn leaveBtn" onClick={() => navigate('/')}>Leave room</button>
+            </aside>
+            <section className="editorWrap"><Editor socketRef={socketRef} roomId={roomId} language={language} initialCode={room.code} onCodeChange={(code) => { codeRef.current = code; }} /></section>
         </div>
     );
 };

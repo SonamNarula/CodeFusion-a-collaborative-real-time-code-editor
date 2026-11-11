@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders the CodeFusion sign-in screen', () => {
+    render(<App />);
+    expect(screen.getByRole('heading', { name: 'CodeFusion' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Sign in & enter' })).toBeInTheDocument();
 });
