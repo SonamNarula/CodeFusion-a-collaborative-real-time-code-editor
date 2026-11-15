@@ -15,6 +15,18 @@
 
 [Repository](https://github.com/SonamNarula/CodeFusion-a-collaborative-real-time-code-editor) · [Getting Started](#-getting-started) · [Architecture](#-architecture) · [Interview Handbook](#-technical-interview-handbook)
 
+<br />
+
+<img src="docs/assets/codefusion-hero.jpg" alt="Illustrative CodeFusion collaborative coding workspace artwork" width="100%" />
+
+<sub>Illustrative product artwork — not a live application screenshot.</sub>
+
+<br />
+
+**Collaborate in real time. Build in one shared workspace.**
+
+`Yjs CRDT` &nbsp; `Monaco Editor` &nbsp; `Multi-file Projects` &nbsp; `Live Presence` &nbsp; `Browser Runtimes`
+
 </div>
 
 ---
@@ -80,6 +92,10 @@ The collaboration layer uses **Yjs**, a CRDT framework. Rather than broadcasting
 | Browser execution | Sandboxed iframe for JavaScript; Web Worker + Pyodide for Python |
 | Web preview | Sandboxed iframe with linked local CSS/JS inlined |
 | Routing | React Router 6 |
+
+<p align="center">
+  <img src="docs/assets/feature-overview.jpg" alt="CodeFusion feature overview: shared workspace, live collaboration, browser execution, team context, editor tooling and room persistence" width="100%" />
+</p>
 
 ## What makes v2 different?
 
@@ -231,6 +247,10 @@ These are manifest ranges, not a claim that every dependency is pinned to an exa
 ---
 
 # 5. Architecture
+
+<p align="center">
+  <img src="docs/assets/architecture-overview.jpg" alt="CodeFusion architecture: browser clients communicate with a Node and WebSocket server, which persists Yjs room snapshots; execution and preview remain browser-side" width="100%" />
+</p>
 
 ## 5.1 High-level architecture
 
